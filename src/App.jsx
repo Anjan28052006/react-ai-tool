@@ -4,9 +4,15 @@ import './App.css'
 function App() {
 
   return (
-    <>
-    <h1>React-ai-tool</h1>
-    </>
+    <div className='grid grid-cols-5 h-screen'>
+      <div className='col-span-1 bg-zinc-800 '>
+
+      </div>
+      <div className='col-span-4'>
+
+      </div>
+    
+    </div>
   )
 }
 
