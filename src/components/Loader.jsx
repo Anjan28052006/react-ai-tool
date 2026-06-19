@@ -6,11 +6,11 @@ export default function Loader({ loader }) {
       </h1>
 
       {loader && (
-        <div className="flex justify-center items-center">
+        <div className="flex   justify-center items-center">
           <div role="status">
             <svg
               aria-hidden="true"
-              className="w-6 h-6 sm:w-8 sm:h-8 text-zinc-400 animate-spin fill-purple-600"
+              className="w-6 h-6 sm:w-8 sm:h-8 animate-spin fill-purple-600"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

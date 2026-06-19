@@ -85,38 +85,35 @@ function App() {
     }
   }, [selectedHistory]);
 return (
-  <div className="h-screen bg-zinc-950 text-white overflow-hidden">
-    <div className="grid h-full grid-cols-[90px_1fr] sm:grid-cols-[220px_1fr] md:grid-cols-5">
-      
-      {/* Recent History - stays left even on mobile */}
-      <div className="bg-zinc-900 border-r border-zinc-700 overflow-y-auto md:col-span-1">
-        <RecentHistory
-          recentHistory={recentHistory}
-          setSelectedHistory={setSelectedHistory}
-          qSet={qSet || []}
+ <div className="h-dvh bg-zinc-950 text-white overflow-hidden">
+  <div className="flex h-full overflow-hidden">
+
+    <div className="w-[90px] sm:w-[220px] bg-zinc-900 border-r border-zinc-700 overflow-y-auto">
+      <RecentHistory
+        recentHistory={recentHistory}
+        setSelectedHistory={setSelectedHistory}
+        qSet={qSet || []}
+      />
+    </div>
+
+    <div className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
+
+      <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 sm:px-6 md:px-10">
+        <Loader loader={loader} />
+        <QuestionAndAnswer data={data} />
+      </div>
+
+      <div className="shrink-0 border-t border-zinc-700 bg-zinc-950 px-2 py-3 sm:px-6 md:px-10">
+        <QuestionInput
+          askQuestion={askQuestion}
+          setQuestion={setQuestion}
+          question={question}
         />
       </div>
 
-      {/* Main Chat Area */}
-      <div className="flex flex-col h-screen min-w-0 md:col-span-4">
-        
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-6 md:px-10">
-          <Loader loader={loader} />
-          <QuestionAndAnswer data={data} />
-        </div>
-
-        {/* Input */}
-        <div className="border-t border-zinc-700 bg-zinc-950 px-2 py-3 sm:px-6 md:px-10">
-          <QuestionInput
-            askQuestion={askQuestion}
-            setQuestion={setQuestion}
-            question={question}
-          />
-        </div>
-      </div>
     </div>
   </div>
+</div>
 );
 }
 

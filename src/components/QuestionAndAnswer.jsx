@@ -14,7 +14,7 @@ export default function QuestionAndAnswer({ data }) {
   return (
     <div
       ref={scrollToAns}
-      className="h-full w-full overflow-y-auto px-2 sm:px-4 md:px-6"
+      className="w-full  px-2 sm:px-4 md:px-6"
     >
       <ul className="space-y-4 text-zinc-300">
         {data?.map((item, index) => {
