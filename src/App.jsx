@@ -5,6 +5,7 @@ import Answer from "./components/Answers";
 import RecentHistory from "./components/RecentHistory";
 import Loader from "./components/Loader";
 import QuestionAndAnswer from "./components/QuestionAndAnswer";
+import QuestionInput from "./components/QuestionInput";
 
 function App() {
   const [question, setQuestion] = useState("");
@@ -32,8 +33,13 @@ function App() {
     if (question) {
       if (localStorage.getItem("history")) {
         let history = JSON.parse(localStorage.getItem("history"));
-
+        history=history.slice(0,25);
         history = [question, ...history];
+        history = history.map((item) => {
+          item = item.trim();
+          return item.charAt(0).toUpperCase() + item.slice(1);
+        });
+        history = [...new Set(history)];
 
         localStorage.setItem("history", JSON.stringify(history));
         recentHistory(history);
@@ -51,8 +57,7 @@ function App() {
       {
         method: "POST",
         headers: {
-          Authorization:
-            "Bearer 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 ",
+          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -75,12 +80,6 @@ function App() {
     setQuestion("");
   };
 
-  const isEnter = (event) => {
-    if (event.key == "Enter") {
-      askQuestion();
-    }
-  };
-
   useEffect(() => {
     if (selectedHistory) {
       askQuestion();
@@ -88,29 +87,24 @@ function App() {
   }, [selectedHistory]);
   return (
     <div className="grid grid-cols-5 h-screen text-center">
-      <RecentHistory
-        recentHistory={recentHistory}
-        setSelectedHistory={setSelectedHistory}
-        qSet={qSet}
-      />
+      <div className="col-span-1 bg-zinc-800 pt-3">
+        <RecentHistory
+          recentHistory={recentHistory}
+          setSelectedHistory={setSelectedHistory}
+          qSet={qSet}
+        />
+      </div>
 
       <div className="col-span-4 p-5">
         <Loader loader={loader} />
 
         <QuestionAndAnswer data={data} />
-        <div className="bg-zinc-800 w-1/2 m-auto rounded-4xl border border-zinc-700 text-white h-16 flex p-1 pr-5">
-          <input
-            type="text"
-            onKeyDown={isEnter}
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            className="w-full p-3 h-full outline-none"
-            placeholder="Ask me anything"
-          />
-          <button className="cursor-pointer" onClick={askQuestion}>
-            Ask
-          </button>
-        </div>
+
+        <QuestionInput
+          askQuestion={askQuestion}
+          setQuestion={setQuestion}
+          question={question}
+        />
       </div>
     </div>
   );
