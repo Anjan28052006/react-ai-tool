@@ -24,7 +24,6 @@ function App() {
     ],
   };
 
-  // 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
   const askQuestion = async () => {
     if (!question && !selectedHistory) {
       return false;

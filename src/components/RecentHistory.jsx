@@ -17,7 +17,6 @@ export default function RecentHistory({
     })
        recentHistory(history);
        localStorage.setItem('history',JSON.stringify(history));
-    //   console.log(SelectedItem);
   }
   return (
     <>
