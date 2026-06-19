@@ -10,6 +10,7 @@ import QuestionInput from "./components/QuestionInput";
 function App() {
   const [question, setQuestion] = useState("");
   const [data, getData] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [qSet, recentHistory] = useState(
     JSON.parse(localStorage.getItem("history")),
   );
@@ -85,36 +86,66 @@ function App() {
     }
   }, [selectedHistory]);
 return (
- <div className="h-dvh bg-zinc-950 text-white overflow-hidden">
-  <div className="flex h-full overflow-hidden">
+  <div className="h-dvh bg-zinc-950 text-white overflow-hidden">
+    <div className="flex h-full overflow-hidden">
 
-    <div className="w-[90px] sm:w-[220px] bg-zinc-900 border-r border-zinc-700 overflow-y-auto">
-      <RecentHistory
-        recentHistory={recentHistory}
-        setSelectedHistory={setSelectedHistory}
-        qSet={qSet || []}
-      />
-    </div>
-
-    <div className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
-
-      <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 sm:px-6 md:px-10">
-        <Loader loader={loader} />
-        <QuestionAndAnswer data={data} />
-      </div>
-
-      <div className="shrink-0 border-t border-zinc-700 bg-zinc-950 px-2 py-3 sm:px-6 md:px-10">
-        <QuestionInput
-          askQuestion={askQuestion}
-          setQuestion={setQuestion}
-          question={question}
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed sm:static top-0 left-0 z-50 h-full
+          w-[220px] sm:w-[220px]
+          bg-zinc-900 border-r border-zinc-700 overflow-y-auto
+          transition-transform duration-300
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          sm:translate-x-0
+        `}
+      >
+        <RecentHistory
+          recentHistory={recentHistory}
+          setSelectedHistory={(item) => {
+            setSelectedHistory(item);
+            setSidebarOpen(false);
+          }}
+          qSet={qSet || []}
         />
       </div>
 
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+        />
+      )}
+
+      <div className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
+
+        {/* Top mobile button */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="sm:hidden self-start m-2 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700"
+        >
+          ☰
+        </button>
+
+        <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 sm:px-6 md:px-10">
+          <Loader loader={loader} />
+          <QuestionAndAnswer data={data} />
+        </div>
+
+        <div className="shrink-0 border-t border-zinc-700 bg-zinc-950 px-2 py-3 sm:px-6 md:px-10">
+          <QuestionInput
+            askQuestion={askQuestion}
+            setQuestion={setQuestion}
+            question={question}
+          />
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
 );
+
 }
 
 export default App;
