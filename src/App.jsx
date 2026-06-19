@@ -84,29 +84,40 @@ function App() {
       askQuestion();
     }
   }, [selectedHistory]);
-  return (
-    <div className="grid grid-cols-5 h-screen text-center">
-      <div className="col-span-1 bg-zinc-800 pt-3">
+return (
+  <div className="h-screen bg-zinc-950 text-white overflow-hidden">
+    <div className="grid h-full grid-cols-[90px_1fr] sm:grid-cols-[220px_1fr] md:grid-cols-5">
+      
+      {/* Recent History - stays left even on mobile */}
+      <div className="bg-zinc-900 border-r border-zinc-700 overflow-y-auto md:col-span-1">
         <RecentHistory
           recentHistory={recentHistory}
           setSelectedHistory={setSelectedHistory}
-          qSet={qSet}
+          qSet={qSet || []}
         />
       </div>
 
-      <div className="col-span-4 p-5">
-        <Loader loader={loader} />
+      {/* Main Chat Area */}
+      <div className="flex flex-col h-screen min-w-0 md:col-span-4">
+        
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-6 md:px-10">
+          <Loader loader={loader} />
+          <QuestionAndAnswer data={data} />
+        </div>
 
-        <QuestionAndAnswer data={data} />
-
-        <QuestionInput
-          askQuestion={askQuestion}
-          setQuestion={setQuestion}
-          question={question}
-        />
+        {/* Input */}
+        <div className="border-t border-zinc-700 bg-zinc-950 px-2 py-3 sm:px-6 md:px-10">
+          <QuestionInput
+            askQuestion={askQuestion}
+            setQuestion={setQuestion}
+            question={question}
+          />
+        </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default App;
