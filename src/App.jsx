@@ -52,20 +52,20 @@ function App() {
     const payLoadData = question ? question : selectedHistory;
 
     setLoader(true);
-    const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [{ role: "user", content: payLoadData }],
-        }),
-      },
-    );
+   const response = await fetch(
+  "https://api.groq.com/openai/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "openai/gpt-oss-120b",
+      messages: [{ role: "user", content: payLoadData }],
+    }),
+  },
+);
 
     const res = await response.json();
 
