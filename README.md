@@ -1,1 +1,1 @@
-https://react-ai-tool-chda.vercel.app/
+https://react-ai-tool-iur7.vercel.app/
